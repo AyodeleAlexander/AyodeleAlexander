@@ -1,0 +1,77 @@
+# This workflow will install Python dependencies, run tests and lint with a variety of Python versions
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
+
+name: Python package
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.8", "3.9", "3.10"]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install flake8 pytest
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: Lint with flake8
+      run: |
+        # stop the build if there are Python syntax errors or undefined names
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+    - name: Test with pytest
+      run: |
+        pytest
+
+  def add (a,b):
+    return a+b
+def subtract(a,b):
+    return a-b
+def multiply(a,b):
+    return a*b
+def divide(a,b):
+  return a/b
+  
+  
+print("select operation")
+print("1 add")
+print("2 subtract")
+print("3 multiplication")
+print("4 division")
+
+while True:
+    choice=input("enter choice(1/2/3/4):")
+    if choice  in("1","2","3","4"):
+        num1=float(input("enter the first number:"))
+        num2=float(input("enter the s econd number"))
+        if choice=="1" :
+            print(num1,"+" ,num2, "=", add (num1,num2))
+        elif choice=="2":
+            print(num1,"-",num2,"=",subtract(num1,num2))
+        elif choice=="3" :
+            print(num1,"*",num2,"=",multiply(num1,num2))
+        elif choice=="4" :
+            print(num1,"/",num2,"=",divide(num1,num2))
+            next_calculation=input("can we do the next calculation(yes/no)")
+            if next_calculation=="no":
+                break
+    else:
+            print("empty statement")
+            
+         
